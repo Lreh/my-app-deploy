@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/lreh/app-of-apps.git
+    repoURL: https://github.com/lreh/my-app-deploy.git
     targetRevision: HEAD
     path: apps/              # Points to the folder containing child manifests
   destination:
