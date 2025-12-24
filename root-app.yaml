@@ -14,5 +14,5 @@ spec:
     namespace: argocd        # Applications must be created in the argocd namespace
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
