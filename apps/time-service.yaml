@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: time-service
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # Point this to where you store the K8s manifests for the time service
+    # If they are in the same repo, use your repo URL
+    repoURL: https://github.com/lreh/my-app-deploy.git
+    targetRevision: HEAD
+    path: k8s/time-service  # Create this folder for the Deployment/Service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook-ns # Reusing your existing namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
