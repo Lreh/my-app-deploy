@@ -1,2 +1,13 @@
+replicaCount: 1
+
 image:
-  tag: 5bf6049cbce53b4bab68002343eef87566ff8049
+  repository: lrehdocker/time-service
+  pullPolicy: IfNotPresent
+  tag: "v1"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+resources: {}
