@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: lrehdocker/time-service
   pullPolicy: IfNotPresent
-  tag: "v1"
+  tag: e1f36c839e953683c9fddd36198dc9980cbe7844
 
 service:
   type: ClusterIP
