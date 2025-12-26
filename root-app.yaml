@@ -5,24 +5,38 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/lreh/my-app-deploy.git
-        revision: HEAD
-        directories:
-          - path: apps/*
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - env: dev
+                - env: staging
+          - git:
+              repoURL: https://github.com/lreh/my-app-deploy.git
+              revision: HEAD
+              files:
+                - path: apps/*.yaml
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{env}}-{{metadata.name}}'
     spec:
       project: default
       source:
-        repoURL: https://github.com/lreh/my-app-deploy.git
-        targetRevision: HEAD
-        path: '{{path}}'
+        repoURL: '{{spec.source.repoURL}}'
+        targetRevision: '{{spec.source.targetRevision}}'
+        path: '{{spec.source.path}}'
+        {{- if spec.source.helm }}
+        helm:
+          valueFiles:
+            - values.yaml
+            - values-{{env}}.yaml
+        {{- end }}
       destination:
         server: https://kubernetes.default.svc
-        namespace: argocd
+        namespace: '{{env}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
