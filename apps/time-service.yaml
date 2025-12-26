@@ -8,9 +8,8 @@ spec:
   source:
     repoURL: https://github.com/Lreh/m-time-service.git
     targetRevision: HEAD
-    path: charts/java-app
+    path: .
     helm:
-      # You can point to different value files for different environments
       valueFiles:
         - values.yaml
   destination:
