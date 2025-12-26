@@ -3,28 +3,23 @@ kind: Application
 metadata:
   name: time-service
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    # Point this to where you store the K8s manifests for the time service
-    # If they are in the same repo, use your repo URL
-    repoURL: https://github.com/lreh/my-app-deploy.git
+    # OPTION 2: Point directly to your source code repository
+    repoURL: 'https://github.com/Lreh/m-time-service.git'
+
+    # Point to the folder where Chart.yaml exists in your source repo
+    path: charts/time-service
+
+    # Use the HEAD (latest) branch, or specify 'main'
     targetRevision: HEAD
-    path: k8s/time-service  # Create this folder for the Deployment/Service
   destination:
-    server: https://kubernetes.default.svc
-    namespace: guestbook-ns # Reusing your existing namespace
+    server: 'https://kubernetes.default.svc'
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
