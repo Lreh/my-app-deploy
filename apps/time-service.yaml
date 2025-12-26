@@ -6,16 +6,11 @@ metadata:
 spec:
   project: default
   source:
-    # OPTION 2: Point directly to your source code repository
-    repoURL: 'https://github.com/Lreh/m-time-service.git'
-
-    # Point to the folder where Chart.yaml exists in your source repo
-    path: charts/time-service
-
-    # Use the HEAD (latest) branch, or specify 'main'
+    repoURL: https://github.com/Lreh/m-time-service.git
     targetRevision: HEAD
+    path: .
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
     automated:
