@@ -9,6 +9,10 @@ spec:
     repoURL: https://github.com/Lreh/m-time-service.git
     targetRevision: HEAD
     path: charts/java-app
+    helm:
+      # You can point to different value files for different environments
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: default
