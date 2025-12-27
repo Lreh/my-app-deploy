@@ -27,12 +27,10 @@ spec:
         repoURL: '{{spec.source.repoURL}}'
         targetRevision: '{{version}}'
         path: '{{spec.source.path}}'
-        {{- if spec.source.helm }}
         helm:
           valueFiles:
             - values.yaml
             - values-{{env}}.yaml
-        {{- end }}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{env}}'
