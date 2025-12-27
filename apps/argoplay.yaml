@@ -19,7 +19,7 @@ spec:
       source:
         repoURL: https://github.com/Lreh/argoplay.git
         targetRevision: '{{version}}'
-        path: .
+        path: charts/java-app
         helm:
           valueFiles:
             - values-{{env}}.yaml
