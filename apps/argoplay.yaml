@@ -8,7 +8,9 @@ spec:
     - list:
         elements:
           - env: dev
+            version: HEAD
           - env: staging
+            version: v1.0.0
   template:
     metadata:
       name: '{{env}}-argoplay'
@@ -16,7 +18,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Lreh/argoplay.git
-        targetRevision: HEAD
+        targetRevision: '{{version}}'
         path: .
         helm:
           valueFiles:
