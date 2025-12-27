@@ -10,7 +10,7 @@ spec:
           - env: dev
             version: HEAD
           - env: staging
-            version: 1.0.72
+            version: 1.0.73
   template:
     metadata:
       name: '{{env}}-argoplay'
