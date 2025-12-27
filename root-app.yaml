@@ -10,7 +10,9 @@ spec:
           - list:
               elements:
                 - env: dev
+                  version: HEAD
                 - env: staging
+                  version: v1.0.0
           - git:
               repoURL: https://github.com/lreh/my-app-deploy.git
               revision: HEAD
@@ -23,7 +25,7 @@ spec:
       project: default
       source:
         repoURL: '{{spec.source.repoURL}}'
-        targetRevision: '{{spec.source.targetRevision}}'
+        targetRevision: '{{version}}'
         path: '{{spec.source.path}}'
         {{- if spec.source.helm }}
         helm:
