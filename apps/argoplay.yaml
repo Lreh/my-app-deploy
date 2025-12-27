@@ -1,24 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: argoplay
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/lreh/argoplay.git'
-    targetRevision: HEAD
-    path: charts/java-app
-    helm:
-      # You can point to different value files for different environments
-      valueFiles:
-        - values.yaml
-        - values-dev.yaml
-        - values-staging.yaml
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  generators:
+    - list:
+        elements:
+          - env: dev
+          - env: staging
+  template:
+    metadata:
+      name: '{{env}}-argoplay'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Lreh/argoplay.git
+        targetRevision: HEAD
+        path: .
+        helm:
+          valueFiles:
+            - values.yaml
+            - values-{{env}}.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{env}}-argoplay'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

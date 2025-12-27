@@ -1,42 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: root-app
   namespace: argocd
 spec:
-  generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - env: dev
-                  version: HEAD
-                - env: staging
-                  version: HEAD
-          - git:
-              repoURL: https://github.com/lreh/my-app-deploy.git
-              revision: HEAD
-              files:
-                - path: apps/*.yaml
-  template:
-    metadata:
-      name: '{{env}}-{{metadata.name}}'
-    spec:
-      project: default
-      source:
-        repoURL: '{{spec.source.repoURL}}'
-        targetRevision: '{{version}}'
-        path: '{{spec.source.path}}'
-        helm:
-          valueFiles:
-            - values.yaml
-            - values-{{env}}.yaml
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: '{{env}}'
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+  project: default
+  source:
+    repoURL: https://github.com/lreh/my-app-deploy.git
+    targetRevision: HEAD
+    path: apps/              # Points to the folder containing child manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd        # Applications must be created in the argocd namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
