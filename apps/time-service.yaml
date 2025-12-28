@@ -1,20 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: time-service
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/Lreh/m-time-service.git
-    targetRevision: HEAD
-    path: charts/java-app
-    helm:
-      valueFiles:
-        - values.yaml
+  generators:
+    - list:
+        elements:
+          - env: dev
+            version: HEAD
+          - env: staging
+            version: 1.0.39
+  template:
+    metadata:
+      name: '{{env}}-time-service'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Lreh/m-time-service.git
+        targetRevision: HEAD
+        path: charts/java-app
+        helm:
+          valueFiles:
+            - values-{{env}}.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: '{{env}}-time-service'
   syncPolicy:
     automated:
       prune: true
