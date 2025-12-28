@@ -3,5 +3,5 @@ name: m-time-service-deploy
 version: 0.1.0
 dependencies:
   - name: m-time-service
-    version: "1.0.42"
+    version: "1.0.43"
     repository: "oci://registry-1.docker.io/lrehdocker"
