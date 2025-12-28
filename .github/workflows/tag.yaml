@@ -15,9 +15,31 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Bump version and push tag
+      # 1. Calculate the next version (Dry Run)
+      - name: Calculate Next Version
+        id: dry_run
         uses: anothrNick/github-tag-action@1.36.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch
+          DRY_RUN: true
+
+      # 2. Create a commit with the version in the message
+      #    This ensures ArgoCD shows "Release vX.Y.Z" in the history
+      - name: Commit Version Bump
+        run: |
+          echo "${{ steps.dry_run.outputs.new_tag }}" > VERSION
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add VERSION
+          git commit -m "Release ${{ steps.dry_run.outputs.new_tag }} [skip ci]"
+          git push
+
+      # 3. Tag the new commit
+      - name: Push Tag
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          CUSTOM_TAG: ${{ steps.dry_run.outputs.new_tag }}
