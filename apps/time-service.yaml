@@ -23,12 +23,12 @@ spec:
         helm:
           valueFiles:
             - values-{{env}}.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: '{{env}}-time-service'
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{env}}-time-service'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
