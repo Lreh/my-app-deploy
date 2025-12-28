@@ -18,7 +18,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Lreh/m-time-service.git
-        targetRevision: HEAD
+        targetRevision: '{{version}}'
         path: charts/java-app
         helm:
           valueFiles:
