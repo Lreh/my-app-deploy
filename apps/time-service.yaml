@@ -10,7 +10,7 @@ spec:
           - env: dev
             version: HEAD
           - env: staging
-            version: 1.0.39
+            version: HEAD
   template:
     metadata:
       name: '{{env}}-m-time-service'
