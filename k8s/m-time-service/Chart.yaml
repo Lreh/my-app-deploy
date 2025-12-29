@@ -1,7 +1,7 @@
 apiVersion: v2
 name: m-time-service-deploy
-version: 1.0.54
+version: 1.0.55
 dependencies:
   - name: m-time-service
-    version: "1.0.54"
+    version: "1.0.55"
     repository: "oci://registry-1.docker.io/lrehdocker"
