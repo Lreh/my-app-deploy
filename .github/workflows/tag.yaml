@@ -24,6 +24,21 @@ jobs:
           WITH_V: true
           DEFAULT_BUMP: patch
           DRY_RUN: true
+          VERBOSE: true
+
+      - name: Debug Version Info
+        run: |
+          echo "Calculated New Tag: ${{ steps.dry_run.outputs.new_tag }}"
+          echo "Current Tag: ${{ steps.dry_run.outputs.tag }}"
+          echo "Part to Bump: ${{ steps.dry_run.outputs.part }}"
+          
+          echo "--- Current VERSION file content ---"
+          if [ -f VERSION ]; then
+            cat VERSION
+          else
+            echo "VERSION file does not exist yet."
+          fi
+          echo "------------------------------------"
 
       # 2. Create a commit with the version in the message
       #    This ensures ArgoCD shows "Release vX.Y.Z" in the history
@@ -43,3 +58,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           CUSTOM_TAG: ${{ steps.dry_run.outputs.new_tag }}
+          VERBOSE: true
